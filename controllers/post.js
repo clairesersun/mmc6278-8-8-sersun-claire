@@ -4,9 +4,24 @@ async function create(req, res, next) {
   const {title, body, tags} = req.body
   // TODO: create a new post
   // if there is no title or body, return a 400 status
+  if (!(
+    title
+    && body
+    )) 
+    return res
+      .status(400)
+      .send('must include title and body')
   // omitting tags is OK
   // create a new post using title, body, and tags
+  const post = await Post.create({
+    title, 
+    body, 
+    tags
+  })
   // return the new post as json and a 200 status
+  return res
+    .status(200)
+    .json(post)
 }
 
 // should render HTML
@@ -16,6 +31,10 @@ async function get(req, res) {
     // TODO: Find a single post
     // find a single post by slug and populate 'tags'
     // you will need to use .lean() or .toObject()
+    const posts = await Post.find(slug).lean()
+        .populate({path: 'tags'})
+      res.json(posts)
+
     post.createdAt = new Date(post.createdAt).toLocaleString('en-US', {
       month: '2-digit',
       day: '2-digit',
@@ -78,17 +97,36 @@ async function update(req, res) {
     // TODO: update a post
     // if there is no title or body, return a 400 status
     // omitting tags is OK
+    if (!(
+      title
+      && body
+    ))
+    return res.status(400)
     // find and update the post with the title, body, and tags
+    const post = await Post.findOneAndUpdate(
+      {_id: postId},
+      {$set: {title, body, tags}},
+      {new: true}
+    )
     // return the updated post as json
+    return res
+      .status(201)
+      .json(post)
   } catch(err) {
     res.status(500).send(err.message)
   }
 }
 
 async function remove(req, res, next) {
-  const postId = req.params.id
   // TODO: Delete a post
   // delete post by id, return a 200 status
+  try {
+    const postId = req.params.id
+    const post = await Post.findOneAndDelete(postId)
+    return res.status(200).json(post)
+  } catch(err) {
+    res.status(500).json(err)
+  }
 }
 
 module.exports = {
