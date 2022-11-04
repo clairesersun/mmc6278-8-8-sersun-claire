@@ -12,7 +12,7 @@ const CommentSchema = new Schema({
         required: true
     },
 // Create a "createdAt" property with type Date and set default to Date.now
-    author: {
+    createdAt: {
         type: Date,
         default: Date.now()
     }

@@ -9,7 +9,7 @@ const UserSchema = new Schema({
   },
 // Create a password property of type String that is required
 // with minimum length of 5 and max length 20
-  username: {
+  password: {
     type: String,
     required: true,
     minLength: 5,
