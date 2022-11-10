@@ -8,9 +8,7 @@ async function create(req, res, next) {
     title
     && body
     )) 
-    return res
-      .status(400)
-      .send('must include title and body')
+    return res.status(400).send('must include title and body')
   // omitting tags is OK
   // create a new post using title, body, and tags
   const post = await Post.create({
@@ -19,9 +17,7 @@ async function create(req, res, next) {
     tags
   })
   // return the new post as json and a 200 status
-  return res
-    .status(200)
-    .json(post)
+  return res.status(200).json(post)
 }
 
 // should render HTML
@@ -31,9 +27,9 @@ async function get(req, res) {
     // TODO: Find a single post
     // find a single post by slug and populate 'tags'
     // you will need to use .lean() or .toObject()
-    const posts = await Post.find(slug).lean()
+    const post = await Post.findOne({slug}).lean()
         .populate({path: 'tags'})
-      res.json(posts)
+      res.json(post)
 
     post.createdAt = new Date(post.createdAt).toLocaleString('en-US', {
       month: '2-digit',
@@ -100,8 +96,7 @@ async function update(req, res) {
     if (!(
       title
       && body
-    ))
-    return res.status(400)
+    )) return res.status(400)
     // find and update the post with the title, body, and tags
     const post = await Post.findOneAndUpdate(
       {_id: postId},
@@ -122,7 +117,7 @@ async function remove(req, res, next) {
   // delete post by id, return a 200 status
   try {
     const postId = req.params.id
-    const post = await Post.findOneAndDelete(postId)
+    const post = await Post.findOneAndDelete({_id: postId})
     return res.status(200).json(post)
   } catch(err) {
     res.status(500).json(err)

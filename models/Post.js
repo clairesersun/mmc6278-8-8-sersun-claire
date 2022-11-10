@@ -11,7 +11,7 @@ const PostSchema = new Schema({
 // Create an "body" property with type String that is required
   body: {
     type: String,
-    required: true,
+    required: true
   },
 // Create a "createdAt" property with type Date and set default to Date.now
   createdAt: {
@@ -24,7 +24,7 @@ const PostSchema = new Schema({
 // with type SchemaTypes.ObjectId and ref 'Tag'
   tags: [{
     type: SchemaTypes.ObjectId,
-    ref: 'Tag'
+    ref: `Tag`
   }],
 // Create a "slug" property with type String
   slug: {
