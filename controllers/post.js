@@ -95,7 +95,7 @@ async function update(req, res) {
     if (!(
       title
       && body
-    )) return res.status(400)
+    )) return res.status(400).end()
     // find and update the post with the title, body, and tags
     const post = await Post.findOneAndUpdate(
       {_id: postId},
