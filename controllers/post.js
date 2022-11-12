@@ -104,7 +104,7 @@ async function update(req, res) {
     )
     // return the updated post as json
     return res
-      .status(201)
+      .status(200)
       .json(post)
   } catch(err) {
     res.status(500).send(err.message)
