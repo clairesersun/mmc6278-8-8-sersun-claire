@@ -29,7 +29,6 @@ async function get(req, res) {
     // you will need to use .lean() or .toObject()
     const post = await Post.findOne({slug}).lean()
         .populate({path: 'tags'})
-      res.json(post)
 
     post.createdAt = new Date(post.createdAt).toLocaleString('en-US', {
       month: '2-digit',
